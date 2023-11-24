@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debate Game</title>
+</head>
+<body>
+    <h1>Welcome to the Debate Game</h1>
+    <form action="/create_room" method="post">
+        <label for="thesis">Enter a Thesis for Debate:</label>
+        <input type="text" id="thesis" name="thesis"><br><br>
+        <button type="submit">Create Room</button>
+    </form>
+
+    <h2>Join an Existing Room</h2>
+    <form action="/join_room" method="post">
+        <label for="room_id">Room ID:</label>
+        <input type="text" id="room_id" name="room_id"><br><br>
+        <button type="submit">Join Room</button>
+    </form>
+
+    <!-- Add JavaScript for real-time interactions (not included here) -->
+</body>
+</html>

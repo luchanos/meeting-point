@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debate Room</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        // Function to generate a random username
+        function generateRandomUsername() {
+            const adjectives = ["Quick", "Lively", "Brave", "Clever", "Witty"];
+            const nouns = ["Eagle", "Lion", "Tiger", "Panther", "Wolf"];
+            const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+            const noun = nouns[Math.floor(Math.random() * nouns.length)];
+            const number = Math.floor(Math.random() * 100);
+            return adjective + noun + number;
+        }
+
+        // Create a random username
+        const username = generateRandomUsername();
+
+        // Initialize Socket.IO
+        var socket = io();
+
+        // Function to handle argument submission
+        function submitArgument() {
+            var argument = document.getElementById("message").value;
+            socket.emit('submit_argument', { room: '{{ room_id }}', argument: argument, username: username });
+            return false; // Prevents standard form submission
+        }
+
+        // Handle the event when arguments are submitted
+        socket.on('arguments_submitted', function(data) {
+            document.getElementById("opponent_argument").textContent = data.opponent_argument;
+            // Additional logic to refresh or update the page content
+        });
+
+        // When the page loads, display the username
+        window.onload = function() {
+            document.getElementById("username_display").textContent = "Your username: " + username;
+        };
+    </script>
+</head>
+<body>
+    <h1>Debate Room: {{ room_id }}</h1>
+    <div id="username_display"></div>
+    <div id="opponent_argument">Waiting for opponent's argument...</div>
+
+    <form id="message_form" onsubmit="return submitArgument()">
+        <label for="message">Your Argument:</label>
+        <input type="text" id="message" name="message"><br><br>
+        <button type="submit">Submit Argument</button>
+    </form>
+
+    <button id="ready_button">Ready</button>
+</body>
+</html>
